@@ -8,6 +8,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($name) && !empty($email) && !empty($message)) {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $uploadDir = 'uploads/';
+
+            // Проверяем существование папки и создаем ее при необходимости
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+
             $uploadFile = $uploadDir . basename($_FILES['file']['name']);
 
             if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadFile)) {
